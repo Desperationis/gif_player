@@ -2,28 +2,42 @@ import pygame
 import os
 from pygame._sdl2 import Window  # For window maximization
 
+import pygame
+import os
+from pygame._sdl2 import Window
+
 # Configuration (adjust these values)
-FRAME_FOLDER = "gif_frames"  # Folder containing individual frames
-DESIRED_WIDTH = 400          # Animation width in pixels
-DESIRED_HEIGHT = 800         # Animation height
-FRAME_DELAY = 10            # Milliseconds between frames (lower = faster)
-BACKGROUND_COLOR = (255, 255, 255)  # White background
+FRAME_FOLDER = "gif_frames"
+DESIRED_WIDTH = 1000
+DESIRED_HEIGHT = 1000
+FRAME_DELAY = 10
+BACKGROUND_COLOR = (255, 255, 255)
+ROTATION_DEGREE = 0  # New: Set rotation angle in degrees (0 for no rotation)
+PRESERVE_ASPECT_RATIO = True  # New: Maintain original width/height ratio
 
-# Initialize Pygame
 pygame.init()
-
-# Create maximized window
 screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
-Window.from_display_module().maximize()  # SDL2 method for maximization [1][7]
+Window.from_display_module().maximize()
 
-# Load animation frames
 gif_frames = []
+
 try:
     for filename in sorted(os.listdir(FRAME_FOLDER)):
         if filename.lower().endswith(('.png', '.jpg', '.bmp')):
             img = pygame.image.load(os.path.join(FRAME_FOLDER, filename)).convert_alpha()
-            img = pygame.transform.scale(img, (DESIRED_WIDTH, DESIRED_HEIGHT))
-            gif_frames.append(img)
+            
+            # Aspect ratio preservation logic [4][7]
+            if PRESERVE_ASPECT_RATIO:
+                original_ratio = img.get_height() / img.get_width()
+                new_height = int(DESIRED_WIDTH * original_ratio)
+            else:
+                new_height = DESIRED_HEIGHT
+
+            scaled_img = pygame.transform.scale(img, (DESIRED_WIDTH, new_height))
+            
+            # Rotation logic [3][5][6]
+            rotated_img = pygame.transform.rotate(scaled_img, ROTATION_DEGREE)
+            gif_frames.append(rotated_img)
 except FileNotFoundError:
     print(f"Error: Frame folder '{FRAME_FOLDER}' not found!")
     pygame.quit()
