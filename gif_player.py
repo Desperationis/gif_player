@@ -16,8 +16,8 @@ ROTATION_DEGREE = 0  # New: Set rotation angle in degrees (0 for no rotation)
 PRESERVE_ASPECT_RATIO = True  # New: Maintain original width/height ratio
 
 pygame.init()
-screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
-Window.from_display_module().maximize()
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
 
 gif_frames = []
 
