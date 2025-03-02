@@ -8,7 +8,7 @@ from pygame._sdl2 import Window
 
 # Configuration (adjust these values)
 FRAME_FOLDER = "gif_frames"
-DESIRED_WIDTH = 1000
+DESIRED_WIDTH = 300
 DESIRED_HEIGHT = 1000
 FRAME_DELAY = 10
 BACKGROUND_COLOR = (255, 255, 255)

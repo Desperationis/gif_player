@@ -15,8 +15,7 @@ def split_gif(input_path, output_dir="gif_frames"):
             
             for i, frame in enumerate(ImageSequence.Iterator(gif)):
                 # Initialize canvas with first frame
-                if canvas is None:
-                    canvas = Image.new("RGBA", frame.size)
+                canvas = Image.new("RGBA", frame.size)
                 
                 # Update canvas with current frame
                 canvas.paste(frame, (0, 0), frame.convert("RGBA"))
